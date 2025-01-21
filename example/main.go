@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"golimiter"
+	"github.com/streamdp/golimiter"
 )
 
 func main() {

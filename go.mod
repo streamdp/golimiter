@@ -1,4 +1,4 @@
-module golimiter
+module github.com/streamdp/golimiter
 
 go 1.23.5
 
