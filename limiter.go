@@ -10,8 +10,8 @@ type Limiter struct {
 	c *LimitCache
 }
 
-func New(ctx context.Context) *Limiter {
-	return &Limiter{NewLimitCache(ctx)}
+func New(ctx context.Context, ttl time.Duration) *Limiter {
+	return &Limiter{NewLimitCache(ctx, ttl)}
 }
 
 func (l *Limiter) Allow(key string, rate int, period time.Duration) bool {

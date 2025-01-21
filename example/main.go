@@ -15,7 +15,7 @@ func main() {
 		now = time.Now()
 	)
 
-	l := golimiter.New(context.Background())
+	l := golimiter.New(context.Background(), time.Minute)
 
 	for time.Since(now) <= 2*time.Second {
 		if l.Allow("key1", 10, time.Second) {

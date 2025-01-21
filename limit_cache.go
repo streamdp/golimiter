@@ -14,12 +14,14 @@ type Cache interface {
 }
 
 type LimitCache struct {
-	c Cache
+	c   Cache
+	ttl time.Duration
 }
 
-func NewLimitCache(ctx context.Context) *LimitCache {
+func NewLimitCache(ctx context.Context, ttl time.Duration) *LimitCache {
 	return &LimitCache{
-		c: microcache.New(ctx, nil),
+		c:   microcache.New(ctx, nil),
+		ttl: ttl,
 	}
 }
 
@@ -29,11 +31,11 @@ const (
 )
 
 func (a *LimitCache) Set(key string, hits int, deadline int64) (err error) {
-	if err = a.c.Set(hitsPrefix+key, hits, time.Hour); err != nil {
+	if err = a.c.Set(hitsPrefix+key, hits, a.ttl); err != nil {
 		return fmt.Errorf("cache: %w", err)
 	}
 
-	if err = a.c.Set(deadlinePrefix+key, deadline, time.Hour); err != nil {
+	if err = a.c.Set(deadlinePrefix+key, deadline, a.ttl); err != nil {
 		return fmt.Errorf("cache: %w", err)
 	}
 
