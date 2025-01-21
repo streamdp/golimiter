@@ -20,7 +20,7 @@ type LimitCache struct {
 
 func NewLimitCache(ctx context.Context, ttl time.Duration) *LimitCache {
 	return &LimitCache{
-		c:   microcache.New(ctx, nil),
+		c:   microcache.New(ctx, -1),
 		ttl: ttl,
 	}
 }
