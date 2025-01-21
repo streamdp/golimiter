@@ -21,7 +21,7 @@ func (l *Limiter) Allow(key string, rate int, period time.Duration) bool {
 		if hits >= rate {
 			return false
 		}
-		if err = l.c.Set(key, hits+1, now+period.Microseconds()); err != nil {
+		if err = l.c.Set(key, hits+1, deadline); err != nil {
 			log.Println(err)
 		}
 		return true
