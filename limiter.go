@@ -24,6 +24,7 @@ func (l *Limiter) Allow(ctx context.Context, key string, rate int, period time.D
 		if err = l.c.Set(ctx, key, hits+1, deadline); err != nil {
 			log.Println(err)
 		}
+
 		return true
 	}
 

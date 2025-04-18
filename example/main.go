@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"log"
 	"time"
 
 	"github.com/streamdp/golimiter"
@@ -24,6 +24,6 @@ func main() {
 		}
 	}
 
-	fmt.Println("hits count:", allowed)
-	fmt.Println("test passed: ", allowed == 20)
+	log.Println("hits count:", allowed)
+	log.Println("test passed: ", allowed == 20)
 }
