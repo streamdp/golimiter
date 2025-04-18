@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-	ctx := context.Background()
+    ctx := context.Background()
     l := golimiter.New(ctx, time.Minute)
     if l.Allow(ctx, "key1", 10, time.Second) {
         doSomething()
