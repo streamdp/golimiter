@@ -15,10 +15,11 @@ func main() {
 		now = time.Now()
 	)
 
-	l := golimiter.New(context.Background(), time.Minute)
+	ctx := context.Background()
+	l := golimiter.New(ctx, time.Minute)
 
 	for time.Since(now) <= 2*time.Second {
-		if l.Allow("key1", 10, time.Second) {
+		if l.Allow(ctx, "key1", 10, time.Second) {
 			allowed++
 		}
 	}

@@ -44,12 +44,13 @@ func TestLimiter(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			l := New(context.Background(), time.Minute)
+			ctx := context.Background()
+			l := New(ctx, time.Minute)
 			allowed := 0
 
 			now := time.Now()
 			for time.Since(now) <= tt.args.period {
-				if l.Allow(tt.args.key, tt.args.rate, tt.args.period) {
+				if l.Allow(ctx, tt.args.key, tt.args.rate, tt.args.period) {
 					allowed++
 				}
 			}

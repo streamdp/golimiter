@@ -9,8 +9,8 @@ import (
 )
 
 type Cache interface {
-	Get(key string) (any, error)
-	Set(key string, value any, expiration time.Duration) error
+	Get(ctx context.Context, key string) (any, error)
+	Set(ctx context.Context, key string, value any, expiration time.Duration) error
 }
 
 type LimitCache struct {
@@ -30,25 +30,25 @@ const (
 	deadlinePrefix = "deadline:"
 )
 
-func (a *LimitCache) Set(key string, hits int, deadline int64) (err error) {
-	if err = a.c.Set(hitsPrefix+key, hits, a.ttl); err != nil {
+func (a *LimitCache) Set(ctx context.Context, key string, hits int, deadline int64) (err error) {
+	if err = a.c.Set(ctx, hitsPrefix+key, hits, a.ttl); err != nil {
 		return fmt.Errorf("cache: %w", err)
 	}
 
-	if err = a.c.Set(deadlinePrefix+key, deadline, a.ttl); err != nil {
+	if err = a.c.Set(ctx, deadlinePrefix+key, deadline, a.ttl); err != nil {
 		return fmt.Errorf("cache: %w", err)
 	}
 
 	return nil
 }
 
-func (a *LimitCache) Get(key string) (hits int, deadline int64, err error) {
-	rawHits, err := a.c.Get(hitsPrefix + key)
+func (a *LimitCache) Get(ctx context.Context, key string) (hits int, deadline int64, err error) {
+	rawHits, err := a.c.Get(ctx, hitsPrefix+key)
 	if err != nil {
 		return
 	}
 
-	rawDeadline, err := a.c.Get(deadlinePrefix + key)
+	rawDeadline, err := a.c.Get(ctx, deadlinePrefix+key)
 	if err != nil {
 		return
 	}
